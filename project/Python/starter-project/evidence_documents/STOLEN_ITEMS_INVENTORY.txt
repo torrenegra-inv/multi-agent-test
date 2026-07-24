@@ -1,0 +1,42 @@
+PALAIS DES ARTS - STOLEN ITEMS INVENTORY
+Theft Date: 2024-01-18 (discovered 01:00, 2024-01-19)
+Gallery: 2C - Impressionist & Post-Impressionist Collection
+Investigating Officer: Inspector Moreau, Brigade Criminelle
+
+CONFIRMED STOLEN ITEMS:
+
+1. ART_003 - "Irises" by Vincent van Gogh
+   - Dimensions: 71x93cm, Oil on canvas
+   - Estimated Insurance Value: €46,000,000
+   - Provenance: Purchased 2001, documented chain of ownership
+   - Frame removed on-site (frame recovered near loading dock)
+   - Last seen: 22:00 security sweep (confirmed present)
+
+2. ART_007 - "Girl with a Pearl Earring" by Johannes Vermeer
+   - Dimensions: 44x39cm, Oil on canvas
+   - Estimated Insurance Value: €35,900,000
+   - Provenance: Acquired 2003
+   - Removed from wall mount intact
+
+3. ART_012 - "The Thinker" (bronze cast) by Auguste Rodin
+   - Height: 1.9m, Bronze sculpture
+   - Estimated Insurance Value: €8,700,000
+   - Required heavy lifting equipment (loading dock used)
+   - Wheel marks found near loading dock
+
+4. ART_009 - "The Persistence of Memory" by Salvador Dalí
+   - Dimensions: 24x33cm, Oil on canvas
+   - Estimated Insurance Value: €35,000,000 (insurance value known)
+   - Item Category: Painting
+   - Small size made transport easy
+
+TOTAL ESTIMATED LOSS: €125,600,000
+
+PHYSICAL EVIDENCE AT SCENE:
+- Van Gogh frame: found near loading dock (ART_003)
+- Wheel track marks: consistent with heavy-duty dolly, loading dock area
+- Partial boot print: size 43, near Gallery 2C side door
+- Fibre evidence: dark blue fabric caught on door frame (analysis pending)
+- Loading dock CCTV: offline during 23:31-00:30 window
+
+STATUS: All items missing. Interpol alert issued. Border alerts active.

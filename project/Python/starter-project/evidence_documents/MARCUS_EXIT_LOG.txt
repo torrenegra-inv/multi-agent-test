@@ -1,0 +1,19 @@
+PALAIS DES ARTS - BUILDING ACCESS LOG
+Former Employee Exit Monitoring
+Subject: CHEN, Marcus (Badge: EMP-2847 - TERMINATED 2024-01-15)
+
+POST-TERMINATION ACCESS ATTEMPTS:
+
+2024-01-16 08:30 - Badge EMP-2847 presented at Main Entrance - ACCESS DENIED (terminated)
+2024-01-16 08:31 - Security notified. Marcus Chen escorted from premises by guard Renard.
+
+2024-01-18 23:47 - Badge EMP-2847 presented at Service Entrance - ACCESS DENIED (terminated)
+2024-01-18 23:47 - OVERRIDE GRANTED by Night Manager badge NM-0042 (Sophie Dubois)
+2024-01-18 23:47 - Marcus Chen entered via service entrance
+2024-01-18 23:47 - Security alert suppressed by NM-0042
+
+NOTE FROM SECURITY CHIEF (2024-01-19):
+The override on the night of 2024-01-18 is a severe protocol violation. Night managers do NOT have authority to grant access to terminated employees. This bypass was deliberate and coordinated. Badge NM-0042 (Dubois) has been suspended pending investigation.
+
+Estimated time Marcus Chen was inside building: 00:23-00:30 minutes (23:47 to ~00:17)
+Loading dock activity correlates exactly with this window.

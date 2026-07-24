@@ -4,102 +4,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A hands-on **CodeJam workshop** for building multi-agent AI systems on SAP BTP. The scenario is an art-heist investigation solved by a three-agent crew. Two parallel implementation tracks exist (Python and TypeScript) — they solve the same problem with different stacks.
+A **multi-agent CrewAI investigation crew** — an art-heist scenario solved by three agents (Loss Appraiser, Evidence Analyst, Lead Detective). Originally adapted from an SAP BTP CodeJam exercise, but reworked to run **entirely locally**: Gemini as the LLM, a local scikit-learn model standing in for a hosted structured-prediction service, and local sentence-transformer embeddings standing in for a hosted RAG/grounding service. No SAP BTP, AI Core, or Cloud Foundry dependency remains.
 
-This is **teaching material**, not a maintained product. Most edits target the exercise markdown or keep the `solution/` code in sync with what learners build step-by-step.
-
-## Repo layout (the part that matters)
+## Repo layout
 
 ```
-exercises/{Python,JavaScript}/0X-*.md   ← step-by-step instructions learners follow
-exercises/data/documents/                ← evidence text files; loaded into Grounding pipeline
-project/{Python,JavaScript}/starter-project/   ← intentionally near-empty; learners create files here
-project/{Python,JavaScript}/solution/    ← reference completed code (must stay in sync with exercises)
+project/Python/starter-project/   ← the actual project — everything lives here
+  main.py                          ← entrypoint: InvestigatorCrew().crew().kickoff(...)
+  basic_agent.py                   ← earlier single-agent version (Loss Appraiser only)
+  investigator_crew.py             ← @CrewBase class wiring all three agents/tasks
+  config/agents.yaml, config/tasks.yaml  ← agent/task definitions (CrewAI config-driven pattern)
+  rpt1_sklearn_tool.py             ← local stand-in for SAP-RPT-1 structured prediction
+  grounding_tool.py                ← local stand-in for SAP Grounding Service (RAG)
+  evidence_documents/               ← evidence text files the grounding tool embeds/searches
+  payload.py                        ← structured input data (stolen items) for the appraiser
+presentations/                     ← slide/talk material about this project
 ```
-
-`starter-project/` is essentially empty by design (only `readme.md` is tracked). Every Python/TS file referenced in exercises is created by the learner during the lesson — when verifying an exercise edit, check the `solution/` for the canonical version.
 
 ## Run commands
 
-### Python (CrewAI + LiteLLM)
-
-From `project/Python/solution/` (or the learner's `starter-project/` once populated):
+From `project/Python/starter-project/`:
 
 ```bash
-pip install -r requirements.txt          # solution
-# or, while doing the exercises:
-pip install litellm==1.82.6 crewai python-dotenv
-
-python main.py                            # local run
+pip install crewai python-dotenv certifi scikit-learn pandas numpy sentence-transformers
+python main.py
 ```
 
-The exercise instructions also document a "from repository root" form: `python3 ./project/Python/starter-project/main.py`. **When adding or editing such commands, always include the full `./project/Python/starter-project/` prefix** — earlier exercises (02, 04) drifted by dropping this prefix after a folder restructure and had to be repaired.
-
-### TypeScript (LangGraph + SAP Cloud SDK for AI)
-
-From `project/JavaScript/{starter-project,solution}/`:
-
-```bash
-npm install
-npm run dev          # tsx src/main.ts        (local CLI run)
-npm run dev:server   # tsx src/server.ts      (A2A HTTP server, solution only)
-npm run build        # tsc → dist/
-npm start            # node dist/main.js
-```
-
-Node 22.x, TypeScript ESM (`"type": "module"`).
-
-### Cloud Foundry deploy
-
-From the respective `starter-project/` (or `solution/`): `cf push`. Manifests bind the `generative-ai-hub` service and inject credentials via `VCAP_SERVICES`. Python entrypoint is `uvicorn server:app`; TS entrypoint is `npm run start:server` (Express + `@a2a-js/sdk`).
-
-### Required env vars
-
-Both tracks need a `.env` in their `starter-project/` (not committed):
-
-```
-AICORE_CLIENT_ID, AICORE_CLIENT_SECRET, AICORE_AUTH_URL,
-AICORE_BASE_URL, AICORE_RESOURCE_GROUP,
-RPT1_DEPLOYMENT_URL
-```
-
-There is **no startup validation** of these in the Python code — credential errors surface only on the first API call.
+`.env` in that same folder must define `GEMINI_API_KEY`. First run downloads the `all-MiniLM-L6-v2` sentence-transformers model (one-time delay).
 
 ## Architecture
 
-Three sequential agents (same shape in both languages):
+Three sequential agents, each locked to exactly one authoritative source — no agent is allowed to freelance an answer:
 
-| Agent | Tool | Role |
+| Agent | Tool | Rule |
 |---|---|---|
-| Loss Appraiser | `call_rpt1` | Predicts art categories & insurance values via SAP-RPT-1 |
-| Evidence Analyst | `call_grounding_service` | RAG over evidence docs via SAP Grounding Service |
-| Lead Detective | _(none)_ | Synthesises findings, names the culprit |
+| `appraiser_agent` | `call_rpt1` (local sklearn model) | Never estimates a value itself |
+| `evidence_analyst_agent` | `call_grounding_service` (local embeddings + cosine similarity) | Never fabricates a fact |
+| `lead_detective_agent` | _(none)_ | Only synthesizes the other two agents' task outputs (`context=[...]`) into a cited verdict |
 
-### Python specifics
-
-- `investigator_crew.py` is a `@CrewBase` class. Agents/tasks defined via `@agent`, `@task`, `@crew` decorators.
+- `investigator_crew.py` is a `@CrewBase` class; agents/tasks defined via `@agent`/`@task`/`@crew` decorators.
 - **Method names must exactly match the keys in `config/agents.yaml` and `config/tasks.yaml`.** Mismatches fail silently with no clear error.
-- Tools are plain functions decorated `@tool("Descriptive Name")`. They should return error strings (not raise) so the LLM can recover.
+- Tools are plain functions decorated `@tool(...)`. They return error strings (not raise) so the LLM can recover.
 - Always `Process.sequential` — task outputs flow as context to the next task in declared order.
-- LLM model strings use `sap/<model-name>` (e.g. `sap/gpt-4o`) matching SAP AI Launchpad deployments.
-- RPT-1 payloads use `[PREDICT]` as the inference placeholder; schema (dtype, categories, value ranges) must match exactly.
-
-### TypeScript specifics
-
-- Uses **LangGraph** with an explicit `AgentState` (`Annotation`-based) — state passing between nodes is typed and visible, unlike CrewAI's implicit context flow.
-- Each node returns a partial state update; renaming an `AgentState` field surfaces type errors at every consumer immediately.
-- `investigationWorkflow.ts` builds the graph; `agentConfigs.ts` holds system prompts; `tools.ts` wraps RPT-1 and Grounding calls.
+- All agents share one `gemini_llm = LLM(model="gemini/gemini-2.5-flash", ...)` instance.
+- RPT-1-shaped payloads (`payload.py`) use `[PREDICT]` as the inference placeholder; the sklearn tool mimics RPT-1's request/response schema so the rest of the code didn't need to change when swapping in the local model.
 
 ## Known pitfalls
 
-- **Hardcoded Grounding pipeline ID** in `call_grounding_service` — must be replaced with the learner's own pipeline ID from SAP AI Launchpad.
-- **Grounding pipeline must be pre-loaded** with `exercises/data/documents/` content; an empty pipeline returns no results and agents will hallucinate.
-- **OAuth token refresh**: the Python `RPT1Client` fetches its token once at init. Long-running crews can outlive the token; re-instantiate if needed.
-- **YAML/decorator name mismatch** in CrewAI is the #1 silent failure mode — check both files when an agent or task "just doesn't run."
-- **Exercise/solution drift**: when changing folder structure under `project/`, grep the entire `exercises/` tree for old paths. The pattern `python3 \./[a-z_]+\.py` (no prefix) almost always indicates a stale "from repository root" command.
+- **YAML/decorator name mismatch** in CrewAI is the #1 silent failure mode — check both `investigator_crew.py` and `config/*.yaml` when an agent or task "just doesn't run."
+- Grounding tool loads and embeds `evidence_documents/` once at import time — an empty or missing folder means the Evidence Analyst has nothing to retrieve and will hallucinate.
+- Corporate/enterprise environments may need the `SSL_CERT_FILE`/`REQUESTS_CA_BUNDLE`/`HTTPX_SSL_VERIFY` env vars set to `certifi.where()` (already done at the top of `basic_agent.py` and `investigator_crew.py`) for outbound HTTPS calls to succeed.
 
 ## What CLAUDE should not do here
 
-- Do not add tests, linters, CI, or refactoring to the workshop code unless explicitly requested — learners read this code line-by-line and infrastructure additions distract from the lesson.
-- Do not "modernise" the solution beyond what the exercise text describes; the solution must stay step-for-step traceable to the exercises.
-- When fixing exercise text, mirror the formatting of the surrounding lesson (the Python track uses separate `_macOS / Linux / BAS_` subheaders per code block; the JS track uses `cd <dir>` then bare `npm` commands).
+- Don't reintroduce SAP BTP/AI Core/Cloud Foundry dependencies — the whole point of this adaptation is that it runs locally with no cloud platform.
+- Don't add tests, linters, or CI unless explicitly requested.
+- Don't "modernize" the tool implementations (sklearn model, local embeddings) into hosted services unless that's the explicit ask — they're intentional stand-ins that keep the rest of the code unchanged.

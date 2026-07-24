@@ -1,0 +1,41 @@
+# tasks.yaml
+appraise_loss_task:
+  description: >
+    Analyze the theft crime scene and predict the missing values of stolen items using
+    the RPT-1 model via the call_rpt1 tool.
+    Use the payload data provided in the inputs: {payload}
+  expected_output: >
+    JSON with predicted insurance values and categories for all stolen items,
+    plus a total estimated loss figure.
+  agent: appraiser_agent
+
+analyze_evidence_task:
+  description: >
+    Analyze the evidence of the theft by searching the evidence database via the
+    call_grounding_service tool. Search iteratively for each of the three suspects:
+    {suspect_names}. For each suspect find and report:
+    1. Any alibi information and whether it holds up
+    2. Financial records and potential motive
+    3. Access logs showing presence at the museum
+    4. Any connections to the other suspects or to criminal activity
+    Cite the specific source document for every fact you report.
+  expected_output: >
+    A detailed per-suspect analysis with facts cited from source documents,
+    covering alibi, motive, opportunity, and connections.
+  agent: evidence_analyst_agent
+
+solve_crime:
+  description: >
+    Using the insurance appraisal and the evidence analysis provided by your team,
+    determine who stole the artwork from the Palais des Arts museum.
+    Cross-reference: alibis vs security logs, financial motives vs bank records,
+    and access permissions vs the night of the theft.
+    Identify the primary perpetrator and any accomplices.
+    State the total insurance value of the stolen items.
+  expected_output: >
+    A final investigation report containing:
+    1. The name of the thief (and any accomplices)
+    2. The evidence that proves their guilt
+    3. The total insurance value of all stolen items
+    4. A brief recommended next action for law enforcement
+  agent: lead_detective_agent

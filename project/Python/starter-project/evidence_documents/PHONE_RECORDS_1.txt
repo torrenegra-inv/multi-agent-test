@@ -1,0 +1,23 @@
+PHONE RECORDS - COURT ORDER #2024-CR-0891
+Monitoring Period: 2024-01-01 to 2024-01-25
+
+=== SOPHIE DUBOIS (Mobile: +33 6 12 34 56 78) ===
+2024-01-10 14:23 - Outgoing call to UNKNOWN (+7 495 XXX XXXX - Moscow area code) - Duration: 12 min
+2024-01-12 09:15 - Incoming call from VIKTOR PETROV - Duration: 23 min
+2024-01-15 22:30 - Text message from VIKTOR PETROV: "The arrangement is confirmed. €15,000 for your cooperation. Untraceable."
+2024-01-17 19:45 - Outgoing call to MARCUS CHEN - Duration: 8 min (day before theft)
+2024-01-18 22:30 - Text message to MARCUS CHEN: "Tonight. Service entrance. 23:45. I'll handle the systems."
+2024-01-18 23:00 - Incoming call from VIKTOR PETROV - Duration: 2 min ("confirmation call")
+2024-01-19 08:00 - Text from VIKTOR PETROV: "Delivered. Payment incoming."
+
+=== MARCUS CHEN (Mobile: +33 6 98 76 54 32) ===
+2024-01-15 18:00 - Incoming call from SOPHIE DUBOIS - Duration: 8 min
+2024-01-17 20:00 - Meeting logged at Café Montmartre with unknown individual (CCTV shows Viktor Petrov)
+2024-01-18 22:30 - Incoming text from SOPHIE DUBOIS: "Tonight. Service entrance. 23:45."
+2024-01-18 23:47 - Location data: Museum service entrance ✓ CONFIRMED
+
+=== VIKTOR PETROV (Mobile: +33 6 55 44 33 22) ===
+2024-01-05 - Multiple calls to known art trafficker "The Broker" (Interpol watchlist)
+2024-01-12 - Call to SOPHIE DUBOIS: arranged meeting and payment terms
+2024-01-18 23:00 - Confirmation call to Sophie during theft operation
+2024-01-19 - Coordinated shipment of "art objects" via private courier to Geneva

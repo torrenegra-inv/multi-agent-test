@@ -1,0 +1,26 @@
+MUSEUM SECURITY ACCESS LOG
+Palais des Arts - Electronic Access System
+Date: 2024-01-18 (Night of Theft)
+
+=== AUTHORIZED ACCESS EVENTS ===
+20:00 - Staff closing procedures begin
+20:15 - DUBOIS, Sophie (Night Manager) - Badge IN - Main Entrance [AUTH: NM-0042]
+20:30 - Security sweep completed. 3 guards on duty: Renard, Moreau, Pascal
+21:00 - Last visitor exits. Museum officially closed.
+22:00 - Routine camera check - ALL SYSTEMS NORMAL
+22:45 - DUBOIS, Sophie - Badge IN - Gallery 2C (Restricted) [AUTH: NM-0042] ⚠️ UNUSUAL
+23:00 - Motion sensor DISABLED in Gallery 2C [AUTH: NM-0042] ⚠️ CRITICAL
+23:15 - Camera feed Gallery 2C - OFFLINE (maintenance mode activated) [AUTH: NM-0042] ⚠️ CRITICAL
+23:30 - Loading dock door - OPENED [AUTH: NM-0042] ⚠️ CRITICAL
+23:31 - Loading dock camera - OFFLINE ⚠️
+23:47 - CHEN, Marcus (FORMER EMPLOYEE - TERMINATED) - Badge IN - Service Entrance [BADGE INVALID - ACCESS GRANTED VIA OVERRIDE] ⚠️⚠️ CRITICAL
+23:47 - Badge override logged: NM-0042 granted temporary access for external contractor
+00:15 - Loading dock door - CLOSED
+00:30 - Motion sensors - RE-ENABLED Gallery 2C
+00:45 - Cameras - RE-ENABLED Gallery 2C
+01:00 - Alarm triggered - PAINTINGS MISSING from Gallery 2C
+
+=== ANALYSIS ===
+Timeline shows coordinated disabling of security systems using Night Manager credentials.
+Marcus Chen accessed the building using an invalid badge that was overridden by Sophie Dubois.
+The sequence of events suggests inside knowledge and deliberate coordination.

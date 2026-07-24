@@ -1,0 +1,28 @@
+BANK RECORDS - CONFIDENTIAL INVESTIGATION FILE
+Museum Theft Case - Financial Analysis
+Date of Report: 2024-02-01
+
+=== SOPHIE DUBOIS ===
+Account: FR76-1234-5678-9012
+- 2024-01-10: Salary deposit €3,200
+- 2024-01-15: ATM withdrawal €500
+- 2024-01-18: Online transfer OUT €12,000 to unknown account (flagged)
+- 2024-01-20: Loan payment €850
+- 2024-01-25: Grocery store €120
+Note: The €12,000 transfer on 2024-01-18 (night of the theft) is highly irregular. Sophie's account shows no prior transfers of this magnitude.
+
+=== MARCUS CHEN ===
+Account: FR76-9876-5432-1098
+- 2024-01-15: Final paycheck deposit €2,100 (termination payment)
+- 2024-01-20: Cash deposit €50,000 (LARGE CASH DEPOSIT - FLAGGED)
+- 2024-01-21: Wire transfer €25,000 to offshore account in Cayman Islands
+- 2024-01-22: Purchase of airline ticket to Hong Kong €3,400
+Note: The €50,000 cash deposit on 2024-01-20, just two days after the theft, is a major red flag. No legitimate source identified for this sum.
+
+=== VIKTOR PETROV ===
+Account: FR76-5555-4444-3333
+- 2024-01-05: Transfer IN €30,000 from shell company "Artex Holdings Ltd"
+- 2024-01-10: Cash withdrawal €10,000
+- 2024-01-18: Cash withdrawal €5,000 (night of theft)
+- 2024-01-19: Transfer IN €80,000 from "Artex Holdings Ltd" (day after theft)
+Note: Viktor's account shows a pattern of large cash movements consistent with art trafficking operations. The €80,000 post-theft deposit is deeply suspicious.
