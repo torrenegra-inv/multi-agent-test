@@ -31,8 +31,6 @@ project/Python/starter-project/
   grounding_tool.py       ← local stand-in for RAG grounding over evidence documents
   evidence_documents/     ← evidence text files the grounding tool searches
   payload.py              ← structured input data (the stolen items) for the appraiser
-
-presentations/            ← slide/talk material about this project
 ```
 
 ## Setup
@@ -40,7 +38,22 @@ presentations/            ← slide/talk material about this project
 From `project/Python/starter-project/`:
 
 ```bash
-pip install crewai python-dotenv certifi scikit-learn pandas numpy sentence-transformers
+pip install "crewai[google-genai]" python-dotenv certifi scikit-learn pandas numpy sentence-transformers
+```
+
+Note the `[google-genai]` extra — plain `pip install crewai` does **not** include Gemini support and will fail once an agent tries to call the LLM.
+
+If you're on a corporate network with a TLS-inspecting proxy, also install (see [Troubleshooting](#troubleshooting)):
+
+```bash
+pip install pip-system-certs
+```
+
+### Using `uv` instead
+
+```bash
+uv init
+uv add "crewai[google-genai]" python-dotenv certifi scikit-learn pandas numpy sentence-transformers pip-system-certs
 ```
 
 Create a `.env` file in that same folder with:
@@ -56,6 +69,8 @@ llm="gemini/gemini-2.5-flash"
 ```bash
 cd project/Python/starter-project
 python main.py
+# or, if you used uv:
+uv run python main.py
 ```
 
 This runs the full crew and prints the final investigation verdict, with every claim traced back to a specific evidence file or predicted value.
@@ -67,6 +82,24 @@ python basic_agent.py
 ```
 
 Note: the first run downloads the `all-MiniLM-L6-v2` sentence-transformers model, so expect a one-time delay.
+
+## Troubleshooting
+
+**`SSL: CERTIFICATE_VERIFY_FAILED: unable to get local issuer certificate`**
+
+This means something between you and Gemini/Hugging Face — almost always a corporate network's TLS-inspecting proxy — is re-signing HTTPS traffic with an internal root CA that Python's default certificate bundle (`certifi`) doesn't trust. Fix:
+
+```bash
+pip install pip-system-certs
+# if this project uses uv instead of a plain pip venv:
+uv add pip-system-certs
+```
+
+This patches Python's SSL handling to trust your OS's certificate store (where IT installs that internal root CA), with no code changes needed. **Make sure you install it into the exact environment that runs `main.py`** — installing it into a different Python/venv than the one you actually run has no effect (this is the most common way this fix silently "doesn't work").
+
+**`429 RESOURCE_EXHAUSTED` / quota exceeded**
+
+Your Gemini API key has hit its rate limit — the free tier caps `gemini-2.5-flash` at a small number of requests per day. Wait for the quota to reset (the error message includes a retry delay) or use a key with a higher-tier plan. See [Gemini API rate limits](https://ai.google.dev/gemini-api/docs/rate-limits).
 
 ## License
 

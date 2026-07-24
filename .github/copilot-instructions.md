@@ -28,7 +28,7 @@ Evidence documents (plain text, loaded by the grounding tool) are in `project/Py
 cd project/Python/starter-project
 
 # Install dependencies (only needed once)
-pip install crewai python-dotenv certifi scikit-learn pandas numpy sentence-transformers
+pip install "crewai[google-genai]" python-dotenv certifi scikit-learn pandas numpy sentence-transformers
 
 # Run the crew
 python main.py
@@ -53,4 +53,5 @@ GEMINI_API_KEY=
 - **YAML / decorator name mismatch** causes silent CrewAI failures with no clear error message.
 - **Grounding tool loads `evidence_documents/` once at import time** — an empty or missing folder means the Evidence Analyst has nothing to retrieve and will hallucinate.
 - **No `.env` validation** at startup for the Gemini key — credential errors only surface on the first API call.
-- **Corporate/enterprise networks**: `basic_agent.py` and `investigator_crew.py` set `SSL_CERT_FILE`/`REQUESTS_CA_BUNDLE`/`HTTPX_SSL_VERIFY` to `certifi.where()` at import time to work around corporate TLS interception — don't remove this without checking your network setup.
+- **Corporate/enterprise networks**: `basic_agent.py` and `investigator_crew.py` set `SSL_CERT_FILE`/`REQUESTS_CA_BUNDLE`/`HTTPX_SSL_VERIFY` to `certifi.where()` at import time to work around corporate TLS interception — don't remove this without checking your network setup. Note this does *not* fix `httpx`/`google-genai` (it ignores those env vars); on a TLS-inspecting proxy the real fix is `pip install pip-system-certs` installed into the exact environment that runs the code.
+- `429 RESOURCE_EXHAUSTED` from Gemini is a free-tier daily quota limit, not a bug.
