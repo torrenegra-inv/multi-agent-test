@@ -46,7 +46,9 @@ pip install crewai python-dotenv certifi scikit-learn pandas numpy sentence-tran
 Create a `.env` file in that same folder with:
 
 ```
-GEMINI_API_KEY=your-api-key-here
+keep double quotes in both API key and llm
+GEMINI_API_KEY="your-api-key-here"
+llm="gemini/gemini-2.5-flash"
 ```
 
 ## Run
